@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-
-const { Schema } = mongoose;
-
-const problemSchema = new Schema(
+const problemSchema = new mongoose.Schema(
 {
   title: {
     type: String,
@@ -24,44 +21,66 @@ const problemSchema = new Schema(
 
   tags: [
     {
-      type: String
+      type: String,
+      enum :["array","linked list ","graph","dp"],
+       required: [true,"tag is required"]
     }
   ],
 
-  constraints: {
-    type: String
-  },
-
-  examples: [
+  visibletestcases:[
     {
-      input: String,
-      output: String,
-      explanation: String
+      input:{
+        type:String,
+        required:[true,"input is required"]
+      },
+      output: {
+        type:String,
+        required:[true,"input is required"]
+      },
+      explanation: {
+        type:String,
+        required:[true,"explaination is required"]
+      }
     }
   ],
-
-  starterCode: {
-    type: String
-  },
-
-  solution: {
-    type: String
-  },
-
-  testcases: [
+  hiddentestcases:[
     {
-      type: Schema.Types.ObjectId,
-      ref: "Testcase"
+      input:{
+        type:String,
+        required:[true,"input is required"]
+      },
+      output: {
+        type:String,
+        required:[true,"input is required"]
+      }
     }
   ],
+
+
+  startCode: [
+    {
+      language:{
+        type:String,
+        required:true
+      },
+      initial:{
+        type:String,
+        required:true
+      }
+    }
+  ],
+
 
   createdBy: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required:true,
   }
 
 },
 { timestamps: true }
 );
 
-export default mongoose.model("Problem", problemSchema);            
+const Problem = mongoose.model("problem", problemSchema);   
+
+export default Problem
